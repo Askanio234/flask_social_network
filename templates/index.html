@@ -1,0 +1,5 @@
+{% if current_user.is_authenticated %}
+    <h1>Hi, {{ current_user.username }}</h1>
+{% else %}
+  <a href="{{ url_for(user.login) }}">why aren't you logged in?</a>
+{% endif %}
