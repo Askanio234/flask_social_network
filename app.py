@@ -60,14 +60,14 @@ def login():
         try:
             user = models.User.get(models.User.email == form.email.data)
         except models.DoesNotExist:
-            flash("Your email or password doesn't match!", "error")
+            flash("Your email or password doesn't match!", "danger")
         else:
             if check_password_hash(user.password, form.password.data):
                 login_user(user)
                 flash("You've been looged in!", "success")
                 return redirect(url_for('index'))
             else:
-                flash("Your email or password doesn't match!", "error")
+                flash("Your email or password doesn't match!", "danger")
     return render_template('login.html', form=form)
 
 
@@ -75,7 +75,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash("You ve been logout, Please come back soon!", "sucess")
+    flash("You ve been logout, Please come back soon!", "success")
     return redirect(url_for('index'))
 
 

@@ -1,5 +1,13 @@
-{% if current_user.is_authenticated %}
-    <h1>Hi, {{ current_user.username }}</h1>
-{% else %}
-  <a href="{{ url_for(user.login) }}">why aren't you logged in?</a>
-{% endif %}
+{% extends "base.html" %}
+{% block content %}
+    {% if current_user.is_authenticated %}
+        <h1>Hi, {{ current_user.username }}</h1>
+        <a href="{{ url_for('logout') }}" title="Log out">Log out</a>
+    {% else %}
+        <h1>Hello, friend</h1>
+      <a href="{{ url_for('login') }}" title="Log in"><i class="fa fa-hand-o-up" aria-hidden="true"></i>
+why aren't you logged in?</a>
+      <a href="{{ url_for('register') }}" title="Regiser"><i class="fa fa-user-circle-o" aria-hidden="true"></i>
+or do you need to register?</a>
+    {% endif %}
+{% endblock %}
