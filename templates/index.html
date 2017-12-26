@@ -1,8 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
     {% if current_user.is_authenticated %}
-        <h1>Hi, {{ current_user.username }}</h1>
-        <a href="{{ url_for('logout') }}" title="Log out">Log out</a>
+        <h1>Hi, {{ current_user.username }} see whats new:</h1>
+        {% for post in stream %}
+            <article>
+                <h2>
+                    <a href="{{ url_for('stream', username=post.user.username) }}">{{ post.user.username }}</a> 
+                </h2>
+                <i class="fa fa-clock-o" aria-hidden="true"></i><time data-time="{{ post.timestamp }}" class="distime" datetime="{{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}"> {{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</time><a href="#" class="view"> View</a>
+                <div class="post">
+                    {{ post.content }}
+                </div>
+            </article>
+        {% endfor %}
     {% else %}
         <h1>Hello, friend</h1>
       <a href="{{ url_for('login') }}" title="Log in"><i class="fa fa-hand-o-up" aria-hidden="true"></i>

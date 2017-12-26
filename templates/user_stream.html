@@ -1,0 +1,31 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3" id="username_line">
+            <h1><i class="fa fa-user" aria-hidden="true"></i>{{ user.username }}</h1>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Posts</h5>
+                    <p>{{ user.posts.count() }}</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Followers</h5>
+                    <p>0</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Following</h5>
+                    <p>0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <p>follow/unfolow</p>
+        </div>
+    </div>
+</div>
+{{ super() }}
+{% endblock %}

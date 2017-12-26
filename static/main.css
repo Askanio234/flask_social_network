@@ -1,3 +1,9 @@
 body {
     text-align: center;
 }
+#username_line {
+    padding-left: 0;
+}
+#newspaper {
+    color: gray;
+}
