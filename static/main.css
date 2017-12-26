@@ -4,7 +4,7 @@ body {
 #username_line {
     padding-left: 0;
 }
-#newspaper {
+.gray {
     color: gray;
 }
 .follow-unfollow {

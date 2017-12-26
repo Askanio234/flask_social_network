@@ -22,13 +22,14 @@
     <nav class="navbar navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href=""><i class="fa fa-grav" aria-hidden="true"></i>
+          <a class="navbar-brand" href="#"><i class="fa fa-grav" aria-hidden="true"></i>
  Social Network</a>
         </div>
         <ul class="nav navbar-nav">
-          <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
+          <li><a href="{{ url_for('index') }}"><i class="fa fa-space-shuttle gray" aria-hidden="true"></i>
+ All news</a></li>
           {% if current_user.is_authenticated %}
-          <li><a href="{{ url_for('stream', username=current_user.username) }}"><i class="fa fa-newspaper-o" id="newspaper" aria-hidden="true"></i> Your news</a></li>
+          <li><a href="{{ url_for('stream', username=current_user.username) }}"><i class="fa fa-newspaper-o gray" aria-hidden="true"></i> Your news</a></li>
           <li><a href="{{ url_for('post') }}"><i class="fa fa-pencil-square" aria-hidden="true"></i> Share your thoughts</a></li>
           {% endif %}
         </ul>

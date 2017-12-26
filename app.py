@@ -1,4 +1,5 @@
-from flask import Flask, g, render_template, flash, redirect, url_for
+from flask import (Flask, g, render_template,
+                    flash, redirect, url_for, abort)
 from flask.ext.bcrypt import check_password_hash
 from flask.ext.login import (LoginManager, login_user, logout_user,
                             login_required, current_user)
@@ -103,8 +104,12 @@ def index():
 def stream(username=None):
     template = 'stream.html'
     if username and username != current_user.username:
-        user = models.User.select().where(models.User.username**username).get()
-        stream = user.posts.limit(100)
+        try:
+            user = models.User.select().where(
+                models.User.username**username).get()
+            stream = user.posts.limit(100)
+        except models.DoesNotExist:
+            abort(404) 
     else:
         stream = current_user.get_stream().limit(100)
         user = current_user
@@ -119,7 +124,7 @@ def follow(username):
     try:
         to_user = models.User.get(models.User.username**username)
     except models.DoesNotExist:
-        pass
+        abort(404)
     else:
         try:
             models.Relationship.create(
@@ -140,7 +145,7 @@ def unfollow(username):
     try:
         to_user = models.User.get(models.User.username**username)
     except models.DoesNotExist:
-        pass
+        abort(404)
     else:
         try:
             models.Relationship.get(
@@ -158,7 +163,14 @@ def unfollow(username):
 @app.route('/post/<int:post_id>')
 def view_post(post_id):
     post = models.Post.select().where(models.Post.id == post_id)
+    if post.count() == 0:
+        abort(404)
     return render_template('index.html', stream=post)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html'), 404
 
 
 if __name__ == '__main__':
