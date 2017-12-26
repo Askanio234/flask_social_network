@@ -155,5 +155,11 @@ def unfollow(username):
     return redirect(url_for("stream", username=to_user.username))
 
 
+@app.route('/post/<int:post_id>')
+def view_post(post_id):
+    post = models.Post.select().where(models.Post.id == post_id)
+    return render_template('index.html', stream=post)
+
+
 if __name__ == '__main__':
     app.run(debug=DEBUG, port=PORT)
