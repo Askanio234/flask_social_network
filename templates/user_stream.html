@@ -14,16 +14,24 @@
                 </div>
                 <div class="col-md-4">
                     <h5>Followers</h5>
-                    <p>0</p>
+                    <p>{{ user.followers().count() }}</p>
                 </div>
                 <div class="col-md-4">
                     <h5>Following</h5>
-                    <p>0</p>
+                    <p>{{ user.following().count() }}</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <p>follow/unfolow</p>
+            {% if current_user.is_authenticated %}
+                {% if user != current_user %}
+                    {% if not user in current_user.following() %}
+                        <a href="{{ url_for('follow', username=user.username) }}" class="btn btn-success follow-unfollow">Follow</a>
+                    {% else %}
+                        <a href="{{ url_for('unfollow', username=user.username) }}" class="btn btn-danger follow-unfollow">Unfollow</a>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
         </div>
     </div>
 </div>

@@ -103,7 +103,7 @@ def index():
 def stream(username=None):
     template = 'stream.html'
     if username and username != current_user.username:
-        user = models.User.select().where(models.Username**username).get()
+        user = models.User.select().where(models.User.username**username).get()
         stream = user.posts.limit(100)
     else:
         stream = current_user.get_stream().limit(100)
@@ -111,6 +111,48 @@ def stream(username=None):
     if username:
         template = 'user_stream.html'
     return render_template(template, stream=stream, user=user)
+
+
+@app.route('/follow/<username>')
+@login_required
+def follow(username):
+    try:
+        to_user = models.User.get(models.User.username**username)
+    except models.DoesNotExist:
+        pass
+    else:
+        try:
+            models.Relationship.create(
+                from_user=g.user._get_current_object(),
+                to_user=to_user
+            )
+        except models.IntegrityError:
+            pass
+        else:
+            flash("You are now following {}!".format(to_user.username),
+                    "success")
+    return redirect(url_for("stream", username=to_user.username))
+
+
+@app.route('/unfollow/<username>')
+@login_required
+def unfollow(username):
+    try:
+        to_user = models.User.get(models.User.username**username)
+    except models.DoesNotExist:
+        pass
+    else:
+        try:
+            models.Relationship.get(
+                from_user=g.user._get_current_object(),
+                to_user=to_user
+            ).delete_instance()
+        except models.IntegrityError:
+            pass
+        else:
+            flash("You stoped following {}!".format(to_user.username),
+                    "danger")
+    return redirect(url_for("stream", username=to_user.username))
 
 
 if __name__ == '__main__':
