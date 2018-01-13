@@ -39,4 +39,4 @@ python app.py
 Go to localhost [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
 # Deployed version
-TBA
+On [Python anywhere](http://askanio.pythonanywhere.com/)
